@@ -41,7 +41,7 @@ const xmlyPages = {
             confirm({
                 title: '更新来啦',
                 content: (localConfig.xmlyPages.version || 'N/A') + '=>' + remoteConfig.xmlyPages.version + '\n修复已知bug，优化代码',
-                confirm: $.toString((localConfig, cacheFile) => {
+                confirm: $.toString((localConfig, remoteConfig, cacheFile) => {
                     if (localConfig.publicFunction.version != remoteConfig.publicFunction.version) {
                         cacheFile(localConfig.publicFunction.hikerPath, localConfig.publicFunction.remotePath, false, true);
                     }
@@ -52,7 +52,7 @@ const xmlyPages = {
                     cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, true, true);
                     toast('更新成功');
                     refreshPage();
-                }, localConfig, cacheFile),
+                }, localConfig, remoteConfig, cacheFile),
                 cancel: ''
             })
         }
