@@ -35,8 +35,8 @@ const xmlyPages = {
             }
             return file_content ? file_content : '';
         }
-        let localConfig = fetch(this.ruleFilePath.configPath);
-        let remoteConfig = cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, false);
+        let localConfig = JSON.parse(fetch(this.ruleFilePath.configPath));
+        let remoteConfig = JSON.parse(cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, false));
         const func_version = getItem('xmly_publicFunction_version');
         const pages_version = getItem('xmly_xmlyPages_version');
         if (func_version != remoteConfig.publicFunction.version) {
@@ -48,9 +48,9 @@ const xmlyPages = {
                 content: (pages_version || 'N/A') + '=>' + remoteConfig.xmlyPages.version + '\n修复已知bug，优化代码',
                 confirm: $.toString((cacheFile) => {
                     cacheFile(localConfig.xmlyPages.hikerPath, localConfig.xmlyPages.remotePath, true);
-                }),
+                }, cacheFile),
                 cancel: ''
-            }, cacheFile)
+            })
         }
         if (func_version != remoteConfig.publicFunction.version || pages_version != remoteConfig.xmlyPages.version) {
             //deleteCache();
@@ -59,7 +59,7 @@ const xmlyPages = {
         }
     },
     preRule: function () {
-        let localConfig = fetch(this.ruleFilePath.configPath);
+        let localConfig = JSON.parse(fetch(this.ruleFilePath.configPath));
         if (!getItem('xmly_publicFunction_version')) {
             setItem('xmly_publicFunction_version', localConfig.publicFunction.version);
         }
@@ -68,7 +68,7 @@ const xmlyPages = {
         }
         this.update();
     },
-    homePaage: function () {
+    homePage: function () {
         addListener('onClose', () => {
             unRegisterTask('ximalaya');
         });
@@ -148,7 +148,6 @@ const xmlyPages = {
         if (getMyVar('Bnbnum', '0') == 0) {
             //首页
             let ts = new Date().getTime();
-            //log(public_headers)
             if (page == 1) {
                 //首页一级分类
                 let discategory_url = "https://mobile.ximalaya.com/discovery-category/customCategories/" + ts + "?channel=and-d10&code=&countyCode=0&device=android&needVip=false&version=9.1.30";
@@ -434,7 +433,6 @@ const xmlyPages = {
         } else {
             //我的页面
         }
-
         setResult(d)
     },
     searchPage: function () {
