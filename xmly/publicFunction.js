@@ -22,7 +22,7 @@ $.exports = {
             col_type: col_type,
             img: item.img,
             desc: desc,
-            title: item.title,
+            title: item.title ? item.title : '',
             url: item.url,
             extra: {
                 id: 'banner',
@@ -50,11 +50,11 @@ $.exports = {
             //log(item)
             try {
                 updateItem('banner', {
-                    title: item.title,
+                    title: item.title ? item.title : '',
                     img: item.img,
                     url: item.url,
                     extra: {
-                        pageTitle: item.title,
+                        pageTitle: item.title ? item.title : '',
                     }
                 })
             } catch (e) {
