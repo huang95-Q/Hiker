@@ -6,16 +6,16 @@ const xmlyPages = {
         publicFunctionPath: 'hiker://files/rules/xmly/publicFunction.js'
     },
     update: function () {
-        function cacheFile(fileName, remotePath, isRequire, isSave, encrypt) {
+        function cacheFile(fileName, remotePath, isFetchCache, isSave, encrypt) {
             if (remotePath.startsWith("http")) {
                 remotePath = remotePath.match(/:\/\/[^\/]*\/(.*)/)[1];
             }
             let proxy_urls = ["https://raw.iqiq.io/", "https://ghproxy.net/https://raw.githubusercontent.com/", "https://ghproxy.com/https://raw.githubusercontent.com/"];
+            let file_content;
             for (let i = 0; i < proxy_urls.length; i++) {
                 try {
-                    let file_content;
-                    if (isRequire) {
-                        file_content = require(proxy_urls[i] + remotePath);
+                    if (isFetchCache) {
+                        file_content = fetchCache(proxy_urls[i] + remotePath);
                     } else {
                         file_content = fetch(proxy_urls[i] + remotePath);
                     }
