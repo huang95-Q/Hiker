@@ -43,10 +43,10 @@ const xmlyPages = {
         if (localConfig.xmlyPages.version != remoteConfig.xmlyPages.version) {
             confirm({
                 title: '更新来啦',
-                content: (pages_version || 'N/A') + '=>' + remoteConfig.xmlyPages.version + '\n修复已知bug，优化代码',
-                confirm: $.toString((cacheFile) => {
+                content: (localConfig.xmlyPages.version || 'N/A') + '=>' + remoteConfig.xmlyPages.version + '\n修复已知bug，优化代码',
+                confirm: $.toString((localConfig, cacheFile) => {
                     cacheFile(localConfig.xmlyPages.hikerPath, localConfig.xmlyPages.remotePath, false, true);
-                }, cacheFile),
+                }, localConfig, cacheFile),
                 cancel: ''
             })
         }
