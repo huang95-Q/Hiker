@@ -10,7 +10,7 @@ $.exports = {
         let time = 5000;
         let rnum = Math.floor(Math.random() * arr.length);
         let item = arr[rnum];
-        putMyVar('rnum', rnum);
+        putMyVar('xmly_run_num', rnum);
         let col_type = 'card_pic_1';
         let desc = '0'; //"card_pic_1"需要设置desc属性值(模糊度)
         if (cfg != undefined) {
@@ -18,7 +18,6 @@ $.exports = {
             col_type = cfg.col_type ? cfg.col_type : col_type;
             desc = cfg.desc ? cfg.desc : desc;
         }
-
         d.push({
             col_type: col_type,
             img: item.img,
@@ -36,16 +35,16 @@ $.exports = {
         }
 
         registerTask(Task_id, time, $.toString((arr) => {
-            let rum = getMyVar('rnum');
+            let rum = getMyVar('xmly_run_num');
             let i = Number(getMyVar('banneri', '0'));
             if (rum != '') {
                 i = Number(rum) + 1;
-                clearMyVar('rnum')
+                clearMyVar('xmly_run_num');
             } else {
                 i++;
             }
             if (i > (arr.length - 1)) {
-                i = 0
+                i = 0;
             }
             let item = arr[i];
             //log(item)
@@ -53,12 +52,8 @@ $.exports = {
                 updateItem('banner', {
                     title: item.title,
                     img: item.img,
+                    url: item.url,
                     extra: {
-                        name: item.title,
-                        sname: item.extra.sname,
-                        stype: item.extra.stype,
-                        surl: item.url,
-                        //img:item.img,
                         pageTitle: item.title,
                     }
                 })
