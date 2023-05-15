@@ -36,13 +36,11 @@ const xmlyPages = {
             return file_content;
         }
         let localConfig = JSON.parse(fetch(this.ruleFilePath.configPath));
-        let remoteConfig = JSON.parse(cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, false));
-        const func_version = getItem('xmly_publicFunction_version');
-        const pages_version = getItem('xmly_xmlyPages_version');
-        if (func_version != remoteConfig.publicFunction.version) {
+        let remoteConfig = JSON.parse(cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, false, false));
+        if (localConfig.publicFunction.version != remoteConfig.publicFunction.version) {
             cacheFile(localConfig.publicFunction.hikerPath, localConfig.publicFunction.remotePath, false, true);
         }
-        if (pages_version != remoteConfig.xmlyPages.version) {
+        if (localConfig.xmlyPages.version != remoteConfig.xmlyPages.version) {
             confirm({
                 title: '更新来啦',
                 content: (pages_version || 'N/A') + '=>' + remoteConfig.xmlyPages.version + '\n修复已知bug，优化代码',
@@ -52,7 +50,7 @@ const xmlyPages = {
                 cancel: ''
             })
         }
-        if (func_version != remoteConfig.publicFunction.version || pages_version != remoteConfig.xmlyPages.version) {
+        if (localConfig.publicFunction.version != remoteConfig.publicFunction.version || localConfig.xmlyPages.version != remoteConfig.xmlyPages.version) {
             deleteCache();
             cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, true, true);
             refreshPage();
@@ -60,13 +58,6 @@ const xmlyPages = {
         return;
     },
     preRule: function () {
-        let localConfig = JSON.parse(fetch(this.ruleFilePath.configPath));
-        if (!getItem('xmly_publicFunction_version')) {
-            setItem('xmly_publicFunction_version', localConfig.publicFunction.version);
-        }
-        if (!getItem('xmly_xmlyPages_version')) {
-            setItem('xmly_xmlyPages_version', localConfig.xmlyPages.version);
-        }
         this.update();
         return;
     },
