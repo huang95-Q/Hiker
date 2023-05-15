@@ -37,23 +37,23 @@ const xmlyPages = {
         }
         let localConfig = JSON.parse(fetch(this.ruleFilePath.configPath));
         let remoteConfig = JSON.parse(cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, false, false));
-        if (localConfig.publicFunction.version != remoteConfig.publicFunction.version) {
-            cacheFile(localConfig.publicFunction.hikerPath, localConfig.publicFunction.remotePath, false, true);
-        }
-        if (localConfig.xmlyPages.version != remoteConfig.xmlyPages.version) {
+        if (localConfig.publicFunction.version != remoteConfig.publicFunction.version || localConfig.xmlyPages.version != remoteConfig.xmlyPages.version) {           
             confirm({
                 title: '更新来啦',
                 content: (localConfig.xmlyPages.version || 'N/A') + '=>' + remoteConfig.xmlyPages.version + '\n修复已知bug，优化代码',
                 confirm: $.toString((localConfig, cacheFile) => {
-                    cacheFile(localConfig.xmlyPages.hikerPath, localConfig.xmlyPages.remotePath, false, true);
+                    if (localConfig.publicFunction.version != remoteConfig.publicFunction.version) {
+                        cacheFile(localConfig.publicFunction.hikerPath, localConfig.publicFunction.remotePath, false, true);
+                    }
+                    if (localConfig.xmlyPages.version != remoteConfig.xmlyPages.version) {
+                        cacheFile(localConfig.xmlyPages.hikerPath, localConfig.xmlyPages.remotePath, false, true);
+                    }
+                    deleteCache();
+                    cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, true, true);
+                    refreshPage();
                 }, localConfig, cacheFile),
                 cancel: ''
             })
-        }
-        if (localConfig.publicFunction.version != remoteConfig.publicFunction.version || localConfig.xmlyPages.version != remoteConfig.xmlyPages.version) {
-            deleteCache();
-            cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, true, true);
-            refreshPage();
         }
         return;
     },
