@@ -84,7 +84,7 @@ const xmlyPages = {
         //模拟生成设备唯一标识uuid
         if (getItem("my_uuid", "") == "") {
             var my_uuid = generateUUID();
-            setItem("my_uuid", my_uuid)
+            setItem("my_uuid", my_uuid);
         }
         //setItem("my_uuid", "580d8adf-c7e1-34d3-9dc8-669b26507782")
         var public_headers = getHeaders();
@@ -220,14 +220,14 @@ const xmlyPages = {
                         }
                         d.push({
                             title: title,
-                            url: $('hiker://empty##detailPage').rule((url, cate_url) => {
+                            url: $(url).rule((url,cate_url) => {
                                 eval(fetch('hiker://files/rules/xmly/xmlyPages.js'));
                                 if (/详情/.test(url)) {
-                                    xmlyPages.homeRecFirstCateDetailPage();
+                                    xmlyPages.homeRecFirstCateDetailPage(cate_url);
                                 } else {
                                     xmlyPages.homeMoreRecommendCatePage();
                                 }
-                            }, url, cate.url),
+                            },url, cate.url),
                             pic_url: cate.coverPath + "@Referer=",
                             col_type: "icon_5"
                         });
@@ -437,7 +437,7 @@ const xmlyPages = {
     },
     detailPage: function (params) {
     },
-    homeRecFirstCateDetailPage: function () {
+    homeRecFirstCateDetailPage: function (cate_url) {
         //首页推荐分类详情页
         addListener('onClose', () => {
             unRegisterTask('ximalaya');
@@ -454,9 +454,8 @@ const xmlyPages = {
             getFetchData,
             formatNumber,
         } = $.require("hiker://page/publicFunction");
-        let cate_url = MY_PARAMS.cate_url;
-        let page = getParam("page");
-        //log(page)
+        let page = MY_PAGE;
+        l//og(page)
         let msg_type = cate_url.match(/msg_type=(.*?)(&|$)/)[1];
         log(cate_url)
         log(msg_type)
@@ -1064,9 +1063,9 @@ const xmlyPages = {
                 let title = cate.title;
                 d.push({
                     title: title,
-                    url: $('hiker://empty##homeRecSecondCateDetailPage?page=fypage').rule((url) => {
+                    url: $('hiker://empty##homeRecFirstCateDetailPage?page=fypage').rule((cate_url) => {
                         eval(fetch('hiker://files/rules/xmly/xmlyPages.js'));
-                        //xmlyPages.homeRecSecondCateDetailPage();
+                        xmlyPages.homeRecFirstCateDetailPage(cate_url);
                     }, cate.url),
                     pic_url: cate.coverPath + "@Referer=",
                     col_type: "icon_5",

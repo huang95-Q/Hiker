@@ -65,13 +65,14 @@ $.exports = {
         }, arr))
     },
     generateUUID: function () {
-        var d = new Date().getTime(); //获取当前时间戳
-        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            var r = (d + Math.random() * 16) % 16 | 0;
-            d = Math.floor(d / 16);
-            return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-        });
-        return uuid;
+        var javaImport = new JavaImporter();
+        javaImport.importPackage(
+            Packages.java.util
+        );
+        with (javaImport) {
+            let uuid = UUID.randomUUID().toString();
+            return uuid;
+        }
     },
     getHeaders: function () {
         function convertJSONToCookie(jsonData) {
@@ -81,14 +82,13 @@ $.exports = {
             }
             return cookie.slice(0, -2);
         }
-        //device_model=SM-G6100 (dd1f29a9-ac6c-343e-a0e9-40c0e9ebe3c6);
         let token = "";
         if (getItem("xmly_uid", "") && getItem("xmly_token", "")) {
             token = getItem("xmly_uid", "") + "&" + getItem("xmly_token", "");
         }
 
         let public_cookie = {
-            //"1&_device": "android&fe7cb79f-66d2-4a81-93f9-7899b1e2e0fc&9.1.30",
+            //"1&_device": "android&dd1f29a9-ac6c-343e-a0e9-40c0e9ebe3c6&9.1.30",
             "1&_device": "android&" + getItem("my_uuid", "") + "&9.1.30",
             "1&_token": token,
             "channel": "and-d10",
@@ -150,7 +150,7 @@ $.exports = {
             "S+": date.getMilliseconds(), // 毫秒
             "q+": Math.floor((date.getMonth() + 3) / 3) // 季度
         };
-        if (/(y+)/.test(fmt)) {    
+        if (/(y+)/.test(fmt)) {
             fmt = fmt.replace(RegExp.$1, date.getFullYear().toString().substr(4 - Math.min(4, RegExp.$1.length)));
         }
         for (let key in timeInfo) {
