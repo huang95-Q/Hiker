@@ -233,16 +233,17 @@ const xmlyPages = {
                     if (disdata) {
                         if (disdata.moduleType == "focus") {
                             let bannersLists = disdata.list[0].data;
-                            let banner_Arr = bannersLists.map(it => {
+                            let banner_Arr = [];
+                            bannersLists.forEach(it => {
                                 if (!it.isAd) {
-                                    return {
+                                    banner_Arr.push({
                                         title: "",
                                         img: it.cover,
                                         url: $('hiker://empty##detailPage').rule((realLink) => {
                                             eval(fetch('hiker://files/rules/xmly/xmlyPages.js'));
                                             //xmlyPages.detailPage();
                                         }, it.realLink)
-                                    };
+                                    });
                                 }
                             })
                             //log(banner_Arr)
