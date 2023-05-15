@@ -35,26 +35,29 @@ const xmlyPages = {
             }
             return file_content;
         }
-        let localConfig = JSON.parse(fetch(this.ruleFilePath.configPath));
-        let remoteConfig = JSON.parse(cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, false, false));
-        if (localConfig.publicFunction.version != remoteConfig.publicFunction.version || localConfig.xmlyPages.version != remoteConfig.xmlyPages.version) {           
-            confirm({
-                title: '更新来啦',
-                content: (localConfig.xmlyPages.version || 'N/A') + '=>' + remoteConfig.xmlyPages.version + '\n修复已知bug，优化代码',
-                confirm: $.toString((localConfig, remoteConfig, cacheFile) => {
-                    if (localConfig.publicFunction.version != remoteConfig.publicFunction.version) {
-                        cacheFile(localConfig.publicFunction.hikerPath, localConfig.publicFunction.remotePath, false, true);
-                    }
-                    if (localConfig.xmlyPages.version != remoteConfig.xmlyPages.version) {
-                        cacheFile(localConfig.xmlyPages.hikerPath, localConfig.xmlyPages.remotePath, false, true);
-                    }
-                    deleteCache();
-                    cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, true, true);
-                    toast('更新成功');
-                    refreshPage();
-                }, localConfig, remoteConfig, cacheFile),
-                cancel: ''
-            })
+        if (getMyVar('firstUpdate', 'YES') == 'YES') {
+            let localConfig = JSON.parse(fetch(this.ruleFilePath.configPath));
+            let remoteConfig = JSON.parse(cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, false, false));
+            if (localConfig.publicFunction.version != remoteConfig.publicFunction.version || localConfig.xmlyPages.version != remoteConfig.xmlyPages.version) {
+                confirm({
+                    title: '更新来啦',
+                    content: (localConfig.xmlyPages.version || 'N/A') + '=>' + remoteConfig.xmlyPages.version + '\n修复已知bug，优化代码',
+                    confirm: $.toString((localConfig, remoteConfig, cacheFile) => {
+                        if (localConfig.publicFunction.version != remoteConfig.publicFunction.version) {
+                            cacheFile(localConfig.publicFunction.hikerPath, localConfig.publicFunction.remotePath, false, true);
+                        }
+                        if (localConfig.xmlyPages.version != remoteConfig.xmlyPages.version) {
+                            cacheFile(localConfig.xmlyPages.hikerPath, localConfig.xmlyPages.remotePath, false, true);
+                        }
+                        deleteCache();
+                        cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, true, true);
+                        putMyVar('firstUpdate', 'NO')
+                        toast('更新成功');
+                        refreshPage();
+                    }, localConfig, remoteConfig, cacheFile),
+                    cancel: ''
+                })
+            }
         }
         return;
     },
