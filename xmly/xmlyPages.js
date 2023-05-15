@@ -50,6 +50,7 @@ const xmlyPages = {
                     }
                     deleteCache();
                     cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, true, true);
+                    toast('更新成功');
                     refreshPage();
                 }, localConfig, cacheFile),
                 cancel: ''
