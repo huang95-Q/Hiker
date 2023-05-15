@@ -1,11 +1,11 @@
 {
     "publicFunction":{
-        "version":"2023/5/13",
+        "version":"2023/05/13",
         "hikerPath":"hiker://files/rules/xmly/publicFunction.js",
         "remotePath":"huang95-Q/Hiker/main/xmly/publicFunction.js"
     },
     "xmlyPages":{
-        "version":"2023/5/15",
+        "version":"2023/05/13",
         "hikerPath":"hiker://files/rules/xmly/xmlyPages.js",
         "remotePath":"huang95-Q/Hiker/main/xmly/xmlyPages.js"
     },

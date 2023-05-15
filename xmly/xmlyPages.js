@@ -6,57 +6,58 @@ const xmlyPages = {
         publicFunctionPath: 'hiker://files/rules/xmly/publicFunction.js'
     },
     update: function () {
-        function cacheFile(fileName, remotePath, bool, encrypt) {
+        function cacheFile(fileName, remotePath, isRequire, isSave, encrypt) {
             if (remotePath.startsWith("http")) {
                 remotePath = remotePath.match(/:\/\/[^\/]*\/(.*)/)[1];
             }
             let proxy_urls = ["https://raw.iqiq.io/", "https://ghproxy.net/https://raw.githubusercontent.com/", "https://ghproxy.com/https://raw.githubusercontent.com/"];
             for (let i = 0; i < proxy_urls.length; i++) {
                 try {
-                    if (bool) {
-                        let file_content = fetch(proxy_urls[i] + remotePath);
-                        if (file_content) {
+                    let file_content;
+                    if (isRequire) {
+                        file_content = require(proxy_urls[i] + remotePath);
+                    } else {
+                        file_content = fetch(proxy_urls[i] + remotePath);
+                    }
+                    if (file_content) {
+                        if (isSave) {
                             if (encrypt) {
                                 saveFile(fileName, file_content);
                             } else {
                                 saveFile(fileName, file_content, 0);
                             }
-                            break;
                         }
-                    } else {
-                        var file_content = fetchCache(proxy_urls[i] + remotePath);
-                        if (file_content) {
-                            break;
-                        }
+                        break;
                     }
                 } catch (e) {
                     log(e.toString());
                 }
             }
-            return file_content ? file_content : '';
+            return file_content;
         }
         let localConfig = JSON.parse(fetch(this.ruleFilePath.configPath));
         let remoteConfig = JSON.parse(cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, false));
         const func_version = getItem('xmly_publicFunction_version');
         const pages_version = getItem('xmly_xmlyPages_version');
         if (func_version != remoteConfig.publicFunction.version) {
-            cacheFile(localConfig.publicFunction.hikerPath, localConfig.publicFunction.remotePath, true);
+            cacheFile(localConfig.publicFunction.hikerPath, localConfig.publicFunction.remotePath, false, true);
         }
         if (pages_version != remoteConfig.xmlyPages.version) {
             confirm({
                 title: '更新来啦',
                 content: (pages_version || 'N/A') + '=>' + remoteConfig.xmlyPages.version + '\n修复已知bug，优化代码',
                 confirm: $.toString((cacheFile) => {
-                    cacheFile(localConfig.xmlyPages.hikerPath, localConfig.xmlyPages.remotePath, true);
+                    cacheFile(localConfig.xmlyPages.hikerPath, localConfig.xmlyPages.remotePath, false, true);
                 }, cacheFile),
                 cancel: ''
             })
         }
         if (func_version != remoteConfig.publicFunction.version || pages_version != remoteConfig.xmlyPages.version) {
-            //deleteCache();
-            cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, true);
+            deleteCache();
+            cacheFile(localConfig.config.hikerPath, localConfig.config.remotePath, true, true);
             refreshPage();
         }
+        return;
     },
     preRule: function () {
         let localConfig = JSON.parse(fetch(this.ruleFilePath.configPath));
@@ -67,6 +68,7 @@ const xmlyPages = {
             setItem('xmly_xmlyPages_version', localConfig.xmlyPages.version);
         }
         this.update();
+        return;
     },
     homePage: function () {
         addListener('onClose', () => {
@@ -1004,7 +1006,7 @@ const xmlyPages = {
             if (/iting/.test(cate_url)) {
                 cate_url = cate_url.split('url=')[1];
             }
-            if (/?/.test(cate_url)) {
+            if (/\?/.test(cate_url)) {
                 cate_url = cate_url + '&app=iting&version=9.1.35.3';
             }
             headers.Referer = cate_url;

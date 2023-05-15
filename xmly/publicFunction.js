@@ -144,6 +144,29 @@ $.exports = {
 
         return paramsArr.join("&");
     },
+    dateFormat: function (date, fmt) { // date为Date类型，fmt为字符串类型，表示格式化的日期格式
+        const timeInfo = {
+            "y+": date.getFullYear(), // 年份
+            "M+": date.getMonth() + 1, // 月份
+            "d+": date.getDate(), // 日
+            "h+": date.getHours(), // 小时
+            "m+": date.getMinutes(), // 分
+            "s+": date.getSeconds(), // 秒
+            "S+": date.getMilliseconds(), // 毫秒
+            "q+": Math.floor((date.getMonth() + 3) / 3) // 季度
+        };
+        if (/(y+)/.test(fmt)) {    
+            fmt = fmt.replace(RegExp.$1, date.getFullYear().toString().substr(4 - Math.min(4, RegExp.$1.length)));
+        }
+        for (let key in timeInfo) {
+            let pattern = new RegExp("(" + key + ")");
+            if (pattern.test(fmt)) {
+                let value = timeInfo[key].toString();
+                fmt = fmt.replace(pattern, RegExp.$1.length === 1 ? value : ("00" + value).substr(value.length));
+            }
+        }
+        return fmt;
+    },
     setTab: function (tabs) {
         tabs.forEach((tab, i) => {
             let tabname = tab.name;
