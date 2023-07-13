@@ -10,7 +10,7 @@ const xmlyPages = {
             if (remotePath.startsWith("http")) {
                 remotePath = remotePath.match(/:\/\/[^\/]*\/(.*)/)[1];
             }
-            let proxy_urls = ["https://raw.iqiq.io/", "https://ghproxy.net/https://raw.githubusercontent.com/", "https://ghproxy.com/https://raw.githubusercontent.com/"];
+            let proxy_urls = ["https://ghproxy.net/https://raw.githubusercontent.com/", "https://ghproxy.com/https://raw.githubusercontent.com/"];
             let file_content;
             for (let i = 0; i < proxy_urls.length; i++) {
                 try {
