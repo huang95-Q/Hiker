@@ -455,7 +455,7 @@ const xmlyPages = {
             formatNumber,
         } = $.require("hiker://page/publicFunction");
         let page = MY_PAGE;
-        l//og(page)
+        //log(page)
         let msg_type = cate_url.match(/msg_type=(.*?)(&|$)/)[1];
         log(cate_url)
         log(msg_type)
