@@ -98,26 +98,26 @@ const xmlyPages = {
         if (page == 1) {
             let Bottom_nav_bar = [{
                 "title": "首页",
-                "selected_icon": "https://lanmeiguojiang.com/tubiao/system/130.png",
-                "no_selected_icon": "https://lanmeiguojiang.com/tubiao/system/129.png",
+                "selected_icon": "https://hikerfans.com/tubiao/system/130.png",
+                "no_selected_icon": "https://hikerfans.com/tubiao/system/129.png",
                 "url": "hiker://page/homePage"
             },
             {
                 "title": "会员",
-                "selected_icon": "https://lanmeiguojiang.com/tubiao/system/148.png",
-                "no_selected_icon": "https://lanmeiguojiang.com/tubiao/system/147.png",
+                "selected_icon": "https://hikerfans.com/tubiao/system/148.png",
+                "no_selected_icon": "https://hikerfans.com/tubiao/system/147.png",
                 "url": "hiker://page/vipPage"
             },
             {
                 "title": "关注",
-                "selected_icon": "https://lanmeiguojiang.com/tubiao/system/132.png",
-                "no_selected_icon": "https://lanmeiguojiang.com/tubiao/system/131.png",
+                "selected_icon": "https://hikerfans.com/tubiao/system/132.png",
+                "no_selected_icon": "https://hikerfans.com/tubiao/system/131.png",
                 "url": "hiker://page/focusPage"
             },
             {
                 "title": "我的",
-                "selected_icon": "https://lanmeiguojiang.com/tubiao/system/139.png",
-                "no_selected_icon": "https://lanmeiguojiang.com/tubiao/system/137.png",
+                "selected_icon": "https://hikerfans.com/tubiao/system/139.png",
+                "no_selected_icon": "https://hikerfans.com/tubiao/system/137.png",
                 "url": "hiker://page/myPage"
             }]
             Bottom_nav_bar.forEach((tab, i) => {
@@ -260,7 +260,7 @@ const xmlyPages = {
                             d.push({
                                 title: disdata.title,
                                 desc: '查看全部 >',
-                                pic_url: "https://lanmeiguojiang.com/tubiao/system/93.png",
+                                pic_url: "https://hikerfans.com/tubiao/system/93.png",
                                 url: $('hiker://empty##vipPage?page=fypage').rule(() => {
                                     eval(fetch('hiker://files/rules/xmly/xmlyPages.js'));
                                     //xmlyPages.detailPage();
@@ -355,7 +355,7 @@ const xmlyPages = {
                     });
                     d.push({
                         title: "推荐直播",
-                        pic_url: "https://lanmeiguojiang.com/tubiao/q/53.png",
+                        pic_url: "https://hikerfans.com/tubiao/q/53.png",
                         url: "hiker://empty",
                         col_type: "avatar"
                     });
@@ -375,7 +375,7 @@ const xmlyPages = {
                     d.push({
                         title: hotmodul.cardName,
                         desc: '更多 >',
-                        pic_url: "https://lanmeiguojiang.com/tubiao/q/53.png",
+                        pic_url: "https://hikerfans.com/tubiao/q/53.png",
                         url: "hiker://empty",
                         col_type: "avatar",
                         extra: {
@@ -394,7 +394,7 @@ const xmlyPages = {
                     });
                     d.push({
                         title: "推荐直播",
-                        pic_url: "https://lanmeiguojiang.com/tubiao/q/53.png",
+                        pic_url: "https://hikerfans.com/tubiao/q/53.png",
                         url: "hiker://empty",
                         col_type: "avatar"
                     });
